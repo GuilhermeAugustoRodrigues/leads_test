@@ -1,0 +1,11 @@
+FROM node:12.20.1
+
+WORKDIR /app
+
+# vue
+COPY package.json yarn.lock ./
+RUN yarn install
+
+COPY . .
+
+CMD ["yarn", "serve"]
