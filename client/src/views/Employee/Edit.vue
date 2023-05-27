@@ -6,30 +6,7 @@
       </div>
 
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-6 d-flex align-items-start">
-              <Avatar class="avatar-7 flex-shrink-0" :item="employee"/>
-
-              <div class="ml-4">
-                <div class="form-group mb-3">
-                  <label>Nome</label>
-                  <input class="form-control" type="text" placeholder="Nome" v-model="employee.firstName">
-                </div>
-
-                <div class="form-group mb-3">
-                  <label>Sobrenome</label>
-                  <input class="form-control" type="text" placeholder="Sobrenome" v-model="employee.lastName">
-                </div>
-
-                <div class="form-group">
-                  <label>Email</label>
-                  <input class="form-control" type="email" placeholder="Email" v-model="employee.email">
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
+        <Form v-model="employee" />
 
         <li class="list-group-item text-right">
           <router-link :to="{ name: 'EmployeeShowSkill' }" class="btn btn-outline-primary ml-3">
@@ -44,11 +21,11 @@
 </template>
 
 <script>
-import Avatar from '@/components/Avatar.vue'
+import Form from './Form.vue';
 
 export default {
   components: {
-    Avatar
+    Form
   },
 
   created () {
