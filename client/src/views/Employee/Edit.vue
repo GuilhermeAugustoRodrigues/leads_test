@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Form from './Form.vue';
+import Form from '../../components/EmployeeForm.vue';
 
 export default {
   components: {

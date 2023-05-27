@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Form from './Form.vue';
+import Form from '../../components/EmployeeForm.vue';
 
 export default {
   name: 'CreateEmployee',
@@ -38,9 +38,6 @@ export default {
   methods: {
     async save () {
       try {
-        console.log('this.$data', this.$data);
-        console.log('this.employee', this.employee);
-
         const { data } = await this.$store.dispatch('employee/create', this.employee);
         this.$router.push(`/employee/show/${data.id}`);
       } catch (e) {
