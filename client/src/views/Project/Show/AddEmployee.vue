@@ -42,21 +42,25 @@ export default {
   },
 
   computed: {
+    suggestions () {
+      return this.$store.getters['project/getSuggestions'] || [];
+    },
     bests () {
-      return this.$store.getters['project/getSuggestions'].bests || [];
+      return this.suggestions.bests || [];
     },
 
     others () {
-      return this.$store.getters['project/getSuggestions'].others || [];
+      return this.suggestions.others || [];
     },
 
     all () {
-      return this.$store.getters['project/getSuggestions'].all || [];
+      return this.suggestions.all || [];
     }
   },
 
   methods: {
     fetchData () {
+      this.$store.dispatch('project/findParticipants', this.$route.params.id);
       this.$store.dispatch('project/findSuggestions', this.$route.params.id);
     }
   },

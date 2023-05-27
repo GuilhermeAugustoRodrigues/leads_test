@@ -22,7 +22,8 @@ export default {
   name: 'SkillItem',
   props: {
     item: Object,
-    modelName: String
+    modelName: String,
+    default: () => { return {}}
   },
 
   data () {

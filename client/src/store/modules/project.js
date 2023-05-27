@@ -22,7 +22,11 @@ export default {
     },
 
     getSuggestions: (state) =>  {
-      return state.suggestions;
+      if (!state.participants.length) {
+        return state.suggestions;
+      }
+
+      return getNonParticipantSuggestions(state);
     }
   },
 
@@ -48,19 +52,20 @@ export default {
     ...actions,
 
     async findParticipants ({ commit }, projectId) {
-      let response = await axios.get(`/project/${projectId}/participants`);
+      const response = await axios.get(`/project/${projectId}/participants`);
       commit('setParticipants', response.data);
       return response;
     },
 
     async findSuggestions ({ commit }, projectId) {
-      let response = await axios.get(`/project/${projectId}/suggestions`);
+      const response = await axios.get(`/project/${projectId}/suggestions`);
       commit('setSuggestions', response.data);
       return response;
     },
 
-    addEmployee (context, data) {
-      return axios.post(`/project/addEmployee`, data);
+    async addEmployee ({ dispatch }, data) {
+      await axios.post(`/project/addEmployee`, data);
+      dispatch(`findParticipants`, data.project)
     },
 
     async removeEmployee ({ commit }, params) {
@@ -68,4 +73,28 @@ export default {
       commit('removeParticipant', params);
     },
   }
+}
+
+function getNonParticipantSuggestions ({ suggestions, participants }) {
+  const mappedParticipants = participants.map(participant => participant.Employee)
+
+  const nonParticipantSuggestions = {};
+
+  Object.keys(suggestions).forEach(key => {
+    nonParticipantSuggestions[key] = filterParticipantsFromSuggestions(suggestions[key], mappedParticipants)
+  });
+
+  return nonParticipantSuggestions;
+}
+
+function filterParticipantsFromSuggestions (suggestions, participants) {
+  return suggestions.filter(suggestion => checkIfSuggestionExistsInParticipants(suggestion, participants));
+}
+
+function checkIfSuggestionExistsInParticipants (suggestion, participants) {
+  return !participants.some(participant => isSuggestionEqualToParticipant(suggestion, participant));
+}
+
+function isSuggestionEqualToParticipant (suggestion, participant) {
+  return participant.id === suggestion.id && participant.email === suggestion.email;
 }
