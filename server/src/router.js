@@ -19,6 +19,7 @@ router.get('/employee', [isAuthenticated], EmployeeController.find);
 router.post('/employee', [isAuthenticated], EmployeeController.create);
 router.get('/employee/:id', [isAuthenticated], EmployeeController.findOne);
 router.put('/employee/:id', [isAuthenticated], EmployeeController.update);
+router.delete('/employee/:id', [isAuthenticated], EmployeeController.destroy);
 
 // SkillController
 router.get('/skill', [isAuthenticated], SkillController.find);

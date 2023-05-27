@@ -1,4 +1,8 @@
-const { Employee, EmployeeSkill } = require('../models/loader');
+const {
+  Employee,
+  EmployeeSkill,
+  ParticipantOnProject,
+ } = require('../models/loader');
 
 const EmployeeController = {
   async find (req, res) {
@@ -56,6 +60,32 @@ const EmployeeController = {
 
       return res.ok(employee);
     } catch (e) {
+      return res.badRequest(e);
+    }
+  },
+
+  async destroy (req, res) {
+    const { id } = req.params;
+    const { company } = req.user;
+
+    try {
+      // Remove as dependências
+      await Promise.all([
+        EmployeeSkill.destroy({
+          where: {
+            employee: id,
+            company
+          }
+        }),
+        ParticipantOnProject.destroy({
+          where: {
+            employee: id
+          }
+        }),
+      ]);
+
+      return res.noContent();
+    } catch(e) {
       return res.badRequest(e);
     }
   },
