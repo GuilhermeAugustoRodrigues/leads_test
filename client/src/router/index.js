@@ -8,6 +8,7 @@ import SignUp from '../views/SignUp.vue'
 import EmployeeIndex from '../views/Employee/Index.vue'
 import EmployeeShow from '../views/Employee/Show.vue'
 import EmployeeEdit from '../views/Employee/Edit.vue'
+import EmployeeCreate from '../views/Employee/Create.vue'
 import EmployeeShowSkill from '../views/Employee/Show/Skill.vue'
 import ProjectIndex from '../views/Project/Index.vue'
 import ProjectShow from '../views/Project/Show.vue'
@@ -38,7 +39,6 @@ const routes = [
     children: [
       {
         path: 'show/:id',
-        name: 'EmployeeShow',
         component: EmployeeShow,
         children: [
           {
@@ -52,6 +52,11 @@ const routes = [
         path: 'edit/:id',
         name: 'EmployeeEdit',
         component: EmployeeEdit
+      },
+      {
+        path: 'create',
+        name: 'EmployeeCreate',
+        component: EmployeeCreate
       }
     ]
   },
@@ -73,7 +78,6 @@ const routes = [
       },
       {
         path: 'show/:id',
-        name: 'ProjectShow',
         component: ProjectShow,
         children: [
           {
