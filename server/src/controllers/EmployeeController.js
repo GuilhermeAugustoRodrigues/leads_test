@@ -84,8 +84,16 @@ const EmployeeController = {
         }),
       ]);
 
+      await Employee.destroy({
+        where: {
+          id: id,
+          company
+        }
+      })
+
       return res.noContent();
     } catch(e) {
+      console.log(e)
       return res.badRequest(e);
     }
   },
