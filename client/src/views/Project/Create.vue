@@ -1,7 +1,7 @@
 <template>
   <FormBase
     title="Criar projeto"
-    return-path-name="ProjectShowSkill"
+    return-path-name="Project"
     @save="save"
   >
     <template v-slot:form>

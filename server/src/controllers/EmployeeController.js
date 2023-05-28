@@ -60,7 +60,11 @@ const EmployeeController = {
 
       return res.ok(employee);
     } catch (e) {
-      return res.badRequest(e);
+      let errorMessages = [];
+      if (e.errors) {
+        errorMessages = e.errors.map(error => error.message)
+      }
+      return res.badRequest(errorMessages);
     }
   },
 

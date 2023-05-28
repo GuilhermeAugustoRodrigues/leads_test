@@ -1,5 +1,6 @@
 <template>
   <FormBase
+    v-if="employee"
     title="Criar colaborador"
     return-path-name="EmployeeShowSkill"
     @save="save"
@@ -16,7 +17,6 @@
 
   export default {
     name: "EmployeeCreate",
-
     components: {
       FormBase,
       Form,

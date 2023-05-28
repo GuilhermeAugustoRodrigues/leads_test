@@ -20,7 +20,13 @@ class Employee extends Model {
             notNull: { msg: "É necessário informar um sobrenome" },
           },
         },
-        email: DataTypes.STRING,
+        email: {
+          type: DataTypes.STRING,
+          allowNull: true,
+          validate: {
+            isUnique: Employee.#validate
+        }
+        }
       },
       {
         sequelize,
@@ -33,6 +39,19 @@ class Employee extends Model {
     this.belongsTo(models.Company, {
       foreignKey: { allowNull: false, name: "company" },
     });
+  }
+
+  static async #validate (value, next) {
+    const self = this;
+    Employee.findAll({ where: { email: value } })
+      .then(user => {
+        if (value && user && self.id !== user.id) {
+          return next("Este e-mail já está em uso");
+        }
+
+        return next();
+      })
+      .catch(err => next(err));
   }
 }
 
