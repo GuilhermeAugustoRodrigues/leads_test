@@ -1,4 +1,8 @@
-const { Skill } = require("../models/loader");
+const {
+  Skill,
+  EmployeeSkill,
+  ProjectSkill,
+} = require("../models/loader");
 
 const SkillController = {
   async find(req, res) {
@@ -62,6 +66,21 @@ const SkillController = {
 
   async destroy(req, res) {
     try {
+      await Promise.all([
+        EmployeeSkill.destroy({
+          where: {
+            skill: req.params.id,
+            company: req.user.company,
+          },
+        }),
+        ProjectSkill.destroy({
+          where: {
+            skill: req.params.id,
+            company: req.user.company,
+          },
+        })
+      ]);
+
       await Skill.destroy({
         where: {
           id: req.params.id,

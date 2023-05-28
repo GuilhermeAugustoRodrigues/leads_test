@@ -15,6 +15,7 @@ import {
   faUsers,
   faHome,
   faTasks,
+  faCogs,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import vSelect from "vue-select";
@@ -31,7 +32,8 @@ library.add(
   faTimes,
   faUsers,
   faHome,
-  faTasks
+  faTasks,
+  faCogs,
 );
 
 axios.defaults.baseURL = "/api";

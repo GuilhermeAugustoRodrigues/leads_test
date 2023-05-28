@@ -17,6 +17,10 @@ import ProjectEdit from "../views/Project/Edit.vue";
 import ProjectShowSkill from "../views/Project/Show/Skill.vue";
 import ProjectShowEmployee from "../views/Project/Show/Employee.vue";
 import ProjectShowAddEmployee from "../views/Project/Show/AddEmployee.vue";
+import SkillIndex from "../views/Skill/Index.vue";
+import SkillShow from "../views/Skill/Show.vue";
+import SkillEdit from "../views/Skill/Edit.vue";
+import SkillCreate from "../views/Skill/Create.vue";
 
 Vue.use(VueRouter);
 
@@ -96,6 +100,29 @@ const routes = [
             component: ProjectShowAddEmployee,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: "/skill",
+    name: "Skill",
+    component: SkillIndex,
+    beforeEnter: authenticatedRoute,
+    children: [
+      {
+        path: "show/:id",
+        name: "SkillShow",
+        component: SkillShow,
+      },
+      {
+        path: "edit/:id",
+        name: "SkillEdit",
+        component: SkillEdit,
+      },
+      {
+        path: "create",
+        name: "SkillCreate",
+        component: SkillCreate,
       },
     ],
   },

@@ -22,6 +22,12 @@
             <font-awesome-icon icon="tasks" /> Projetos
           </router-link>
         </li>
+
+        <li class="p-3 text-left font-weight-bold">
+          <router-link to="/skill">
+            <font-awesome-icon icon="cogs" /> Competências
+          </router-link>
+        </li>
       </ul>
     </div>
   </nav>
