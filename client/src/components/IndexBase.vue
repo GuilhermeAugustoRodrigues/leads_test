@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div>
     <div class="card shadow-sm">
       <div class="card-header d-flex align-items-center">
         <h6 class="font-weight-bold text-primary mb-0">{{ title }}</h6>
@@ -50,7 +50,6 @@
       title: String,
       modelName: String,
       addModelLink: String,
-      rootClass: String,
     }
   };
 </script>

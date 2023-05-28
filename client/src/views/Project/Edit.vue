@@ -1,58 +1,43 @@
 <template>
-  <div
-    class="project-edit"
+  <FormBase
     v-if="project"
+    title="Editar projeto"
+    return-path-name="ProjectShowSkill"
+    @save="save"
   >
-    <div class="card border-0">
-      <div class="card-header">
-        <h6 class="mb-0 font-weight-bold">Editar Projeto</h6>
+    <template v-slot:form>
+      <div class="form-group">
+        <label>Título</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Nome"
+          v-model="project.title"
+        />
       </div>
 
-      <ul class="list-group list-group-flush py-3">
-        <li class="list-group-item">
-          <div class="form-group">
-            <label>Título</label>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Nome"
-              v-model="project.title"
-            />
-          </div>
-
-          <div class="form-group mt-3">
-            <label>Título</label>
-            <textarea
-              class="form-control"
-              placeholder="Descrição"
-              v-model="project.description"
-            ></textarea>
-          </div>
-        </li>
-
-        <li class="list-group-item text-right">
-          <router-link
-            :to="{ name: 'ProjectShowSkill' }"
-            class="btn btn-outline-primary ml-3"
-          >
-            Voltar
-          </router-link>
-
-          <button
-            type="button"
-            class="btn btn-primary ml-3"
-            @click="save"
-          >
-            Salvar
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <div class="form-group mt-3">
+        <label>Descrição</label>
+        <textarea
+          class="form-control"
+          placeholder="Descrição"
+          v-model="project.description"
+        />
+      </div>
+    </template>
+  </FormBase>
 </template>
 
 <script>
+  import FormBase from '../../components/FormBase.vue';
+
   export default {
+    name: "ProjectEdit",
+
+    components: {
+      FormBase,
+    },
+
     created() {
       this.fetchData();
     },

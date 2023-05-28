@@ -3,7 +3,6 @@
     title="Colaboradores"
     model-name="Colaborador"
     add-model-link="/employee/create"
-    root-class="employee"
     :items="employees"
   >
     <template v-slot:item="{ item }">

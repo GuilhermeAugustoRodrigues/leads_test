@@ -1,49 +1,30 @@
 <template>
-  <div
-    class="skill-edit"
+  <FormBase
     v-if="skill"
+    title="Criar competência"
+    return-path-name="Skill"
+    @save="save"
   >
-    <div class="card border-0">
-      <div class="card-header">
-        <h6 class="mb-0 font-weight-bold">Editar competência</h6>
-      </div>
-
-      <ul class="list-group list-group-flush">
-        <div>
-          <div class="form-group mb-3">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Nome"
-              v-model="skill.title"
-            />
-
-            <li class="list-group-item text-right">
-              <router-link
-                :to="{ name: 'Skill' }"
-                class="btn btn-outline-primary ml-3"
-              >
-                Voltar
-              </router-link>
-
-              <button
-                type="button"
-                class="btn btn-primary ml-3"
-                @click="save"
-              >
-                Salvar
-              </button>
-            </li>
-          </div>
-        </div>
-      </ul>
-    </div>
-  </div>
+    <template v-slot:form>
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Nome"
+        v-model="skill.title"
+      />
+    </template>
+  </FormBase>
 </template>
 
 <script>
+  import FormBase from '../../components/FormBase.vue';
+
   export default {
-    name: "SkillEdit",
+    name: "SkillCreate",
+
+    components: {
+      FormBase,
+    },
 
     created() {
       this.fetchData();

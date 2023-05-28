@@ -1,55 +1,42 @@
 <template>
-  <div class="project-edit">
-    <div class="card border-0">
-      <div class="card-header">
-        <h6 class="mb-0 font-weight-bold">Criar Colaborador</h6>
+  <FormBase
+    title="Criar projeto"
+    return-path-name="ProjectShowSkill"
+    @save="save"
+  >
+    <template v-slot:form>
+      <div class="form-group">
+        <label>Título</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Nome"
+          v-model="title"
+        />
       </div>
 
-      <ul class="list-group list-group-flush py-3">
-        <li class="list-group-item">
-          <div class="form-group">
-            <label>Título</label>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Nome"
-              v-model="title"
-            />
-          </div>
-
-          <div class="form-group mt-3">
-            <label>Descrição</label>
-            <textarea
-              class="form-control"
-              placeholder="Descrição"
-              v-model="description"
-            ></textarea>
-          </div>
-        </li>
-
-        <li class="list-group-item text-right">
-          <router-link
-            :to="{ name: 'ProjectShowSkill' }"
-            class="btn btn-outline-primary ml-3"
-          >
-            Voltar
-          </router-link>
-
-          <button
-            type="button"
-            class="btn btn-primary ml-3"
-            @click="save"
-          >
-            Salvar
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <div class="form-group mt-3">
+        <label>Descrição</label>
+        <textarea
+          class="form-control"
+          placeholder="Descrição"
+          v-model="description"
+        />
+      </div>
+    </template>
+  </FormBase>
 </template>
 
 <script>
+  import FormBase from '../../components/FormBase.vue';
+
   export default {
+    name: "ProjectCreate",
+
+    components: {
+      FormBase,
+    },
+
     data() {
       return {
         title: null,

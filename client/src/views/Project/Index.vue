@@ -3,7 +3,6 @@
     title="Projetos"
     model-name="Projeto"
     add-model-link="/project/create"
-    root-class="project"
     :items="projects"
   >
     <template v-slot:item="{ item }">

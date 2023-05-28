@@ -1,42 +1,25 @@
 <template>
-  <div
-    class="employee-edit"
+  <FormBase
     v-if="employee"
+    title="Editar colaborador"
+    return-path-name="EmployeeShowSkill"
+    @save="save"
   >
-    <div class="card border-0">
-      <div class="card-header">
-        <h6 class="mb-0 font-weight-bold">Editar Colaborador</h6>
-      </div>
-
-      <ul class="list-group list-group-flush">
-        <Form v-model="employee" />
-
-        <li class="list-group-item text-right">
-          <router-link
-            :to="{ name: 'EmployeeShowSkill' }"
-            class="btn btn-outline-primary ml-3"
-          >
-            Voltar
-          </router-link>
-
-          <button
-            type="button"
-            class="btn btn-primary ml-3"
-            @click="save"
-          >
-            Salvar
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
+    <template v-slot:form>
+      <Form v-model="employee" />
+    </template>
+  </FormBase>
 </template>
 
 <script>
+  import FormBase from '../../components/FormBase.vue';
   import Form from "../../components/EmployeeForm.vue";
 
   export default {
+    name: "EmployeeEdit",
+
     components: {
+      FormBase,
       Form,
     },
 

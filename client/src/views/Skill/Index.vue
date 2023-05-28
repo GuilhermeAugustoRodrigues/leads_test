@@ -3,7 +3,6 @@
     title="Competências"
     model-name="competência"
     add-model-link="/skill/create"
-    root-class="skill"
     :items="skills"
   >
     <template v-slot:item="{ item }">
