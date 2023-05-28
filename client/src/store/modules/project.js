@@ -65,7 +65,7 @@ export default {
 
     async addEmployee({ dispatch }, data) {
       await axios.post(`/project/addEmployee`, data);
-      dispatch(`findParticipants`, data.project);
+      dispatch(`findSuggestions`, data.project);
     },
 
     async removeEmployee({ commit }, params) {

@@ -147,29 +147,29 @@ const ProjectController = {
       let ignoreIds = participants.map((o) => o.employee);
 
       const [bests] = await sequelize.query(`
-        select employee.id, employee.firstName, employee.lastName, employee.email, SUM(employeeskill.stars) as stars from projectskill
-        inner join employeeskill ON employeeskill.skill = projectskill.skill AND employeeskill.stars >= projectskill.stars
-        inner join employee ON employee.id = employeeskill.employee
+        select employee.id, employee.firstname, employee.lastname, employee.email, sum(employeeskill.stars) as stars from projectskill
+        inner join employeeskill on employeeskill.skill = projectskill.skill and employeeskill.stars >= projectskill.stars
+        inner join employee on employee.id = employeeskill.employee
         where projectskill.project = ${req.params.id} and employee.id not in (${ignoreIds}) and employee.company = ${req.user.company}
-        group By employee.id
-        order by stars DESC;
+        group by employee.id
+        order by stars desc;
       `);
 
       ignoreIds = [...ignoreIds, ...bests.map((o) => o.id)];
 
       const [others] = await sequelize.query(`
-        select employee.id, employee.firstName, employee.lastName, employee.email, SUM(employeeskill.stars) as stars from projectskill
-        inner join employeeskill ON employeeskill.skill = projectskill.skill
-        inner join employee ON employee.id = employeeskill.employee
-        where projectskill.project = ${req.params.id} AND employee.company = ${req.user.company}
-        group By employee.id
-        order by stars DESC;
+        select employee.id, employee.firstname, employee.lastname, employee.email, sum(employeeskill.stars) as stars from projectskill
+        inner join employeeskill on employeeskill.skill = projectskill.skill
+        inner join employee on employee.id = employeeskill.employee
+        where projectskill.project = ${req.params.id} and employee.id not in (${ignoreIds}) and employee.company = ${req.user.company}
+        group by employee.id
+        order by stars desc;
       `);
 
       ignoreIds = [...ignoreIds, ...others.map((o) => o.id)];
 
       const [all] = await sequelize.query(`
-        select employee.id, employee.firstName, employee.lastName, employee.email from employee
+        select employee.id, employee.firstname, employee.lastname, employee.email from employee
         where employee.id not in (${ignoreIds}) and employee.company = ${req.user.company};
       `);
 
