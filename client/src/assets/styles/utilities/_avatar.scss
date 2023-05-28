@@ -7,7 +7,7 @@ $avatarSizes: (
   "6": 60px,
   "7": 70px,
   "8": 80px,
-  "9": 90px
+  "9": 90px,
 );
 
 @each $name, $size in $avatarSizes {

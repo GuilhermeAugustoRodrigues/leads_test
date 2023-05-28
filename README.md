@@ -3,8 +3,8 @@
 ## About
 
 ## Getting started
-`git clone <repository-url>`
 
+`git clone <repository-url>`
 
 ### How to run
 
@@ -15,15 +15,16 @@
 http://localhost:8080.
 
 ### Client
+
 http://localhost:8080
 
 ### Server
+
 http://localhost:3000
 
+## Compatibilidade
 
-Compatibilidade
-------------------------------------------------------------------------------
-* Node.js v12
+- Node.js v12
 
 TODO
 [] Dockerfile`s

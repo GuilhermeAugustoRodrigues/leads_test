@@ -15,11 +15,10 @@
   box-shadow: none !important;
 }
 
-
-@import 'variables';
+@import "variables";
 .router-link-exact-active {
   color: $primary;
 }
-@import 'bootstrap';
-@import 'components';
-@import 'utilities';
+@import "bootstrap";
+@import "components";
+@import "utilities";

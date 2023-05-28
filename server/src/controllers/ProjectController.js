@@ -3,14 +3,14 @@ const {
   Project,
   ParticipantOnProject,
   ProjectSkill,
-  sequelize
-} = require('../models/loader');
+  sequelize,
+} = require("../models/loader");
 
 const ProjectController = {
-  async find (req, res) {
+  async find(req, res) {
     try {
       const projects = await Project.findAll({
-        where: { company: req.user.company }
+        where: { company: req.user.company },
       });
       return res.ok(projects);
     } catch (e) {
@@ -18,13 +18,13 @@ const ProjectController = {
     }
   },
 
-  async findOne (req, res) {
+  async findOne(req, res) {
     try {
       const project = await Project.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       return res.ok(project);
@@ -33,18 +33,18 @@ const ProjectController = {
     }
   },
 
-  async update (req, res) {
+  async update(req, res) {
     try {
       const project = await Project.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       project.update({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(project);
@@ -53,11 +53,11 @@ const ProjectController = {
     }
   },
 
-  async create (req, res) {
+  async create(req, res) {
     try {
       const project = await Project.create({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(project);
@@ -66,7 +66,7 @@ const ProjectController = {
     }
   },
 
-  async destroy (req, res) {
+  async destroy(req, res) {
     const { id } = req.params;
     const { company } = req.user;
 
@@ -76,75 +76,75 @@ const ProjectController = {
         ProjectSkill.destroy({
           where: {
             project: id,
-            company
-          }
+            company,
+          },
         }),
         ParticipantOnProject.destroy({
-          where: { project: id }
-        })
+          where: { project: id },
+        }),
       ]);
 
       // Remove o projeto
       await Project.destroy({
         where: {
           id: id,
-          company
-        }
+          company,
+        },
       });
 
       return res.noContent();
-    } catch(e) {
+    } catch (e) {
       return res.badRequest(e);
     }
   },
 
-  async addEmployee (req, res) {
+  async addEmployee(req, res) {
     try {
       let participantOnProject = await ParticipantOnProject.create(req.body);
       return res.ok(participantOnProject);
-    } catch(e) {
+    } catch (e) {
       return res.badRequest(e);
     }
   },
 
-  async removeEmployee (req, res) {
+  async removeEmployee(req, res) {
     try {
       let participantOnProject = await ParticipantOnProject.destroy({
         where: {
           project: req.params.id,
-          employee: req.params.employee
-        }
+          employee: req.params.employee,
+        },
       });
       return res.ok(participantOnProject);
-    } catch(e) {
+    } catch (e) {
       return res.badRequest(e);
     }
   },
 
-  async participants (req, res) {
+  async participants(req, res) {
     try {
       let participants = await ParticipantOnProject.findAll({
         where: {
-          project: req.params.id
+          project: req.params.id,
         },
-        include: [ { model: Employee } ]
+        include: [{ model: Employee }],
       });
       return res.ok(participants);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       return res.badRequest(e);
     }
   },
 
-  async suggestions (req, res) {
+  async suggestions(req, res) {
     try {
       let participants = await ParticipantOnProject.findAll({
         where: {
-          project: req.params.id
-        }
+          project: req.params.id,
+        },
       });
 
-      let ignoreIds = participants.map(o => o.employee);
+      let ignoreIds = participants.map((o) => o.employee);
 
       const [bests] = await sequelize.query(`
         select employee.id, employee.firstName, employee.lastName, employee.email, SUM(employeeskill.stars) as stars from projectskill
@@ -155,7 +155,7 @@ const ProjectController = {
         order by stars DESC;
       `);
 
-      ignoreIds = [...ignoreIds, ...bests.map(o=> o.id) ];
+      ignoreIds = [...ignoreIds, ...bests.map((o) => o.id)];
 
       const [others] = await sequelize.query(`
         select employee.id, employee.firstName, employee.lastName, employee.email, SUM(employeeskill.stars) as stars from projectskill
@@ -166,7 +166,7 @@ const ProjectController = {
         order by stars DESC;
       `);
 
-      ignoreIds = [...ignoreIds, ...others.map(o=> o.id) ];
+      ignoreIds = [...ignoreIds, ...others.map((o) => o.id)];
 
       const [all] = await sequelize.query(`
         select employee.id, employee.firstName, employee.lastName, employee.email from employee
@@ -174,11 +174,11 @@ const ProjectController = {
       `);
 
       return res.ok({ bests, others, all });
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       return res.badRequest(e);
     }
-  }
+  },
 };
 
 module.exports = ProjectController;

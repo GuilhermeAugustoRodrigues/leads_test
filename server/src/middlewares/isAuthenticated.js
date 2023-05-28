@@ -2,16 +2,16 @@
  * isAuthenticated
  *
  * @description :: Policy to check if user is authenticated with JSON web token
-**/
+ **/
 
-const JwtService = require('../services/JWT');
-const { User } = require('../models/loader');
+const JwtService = require("../services/JWT");
+const { User } = require("../models/loader");
 
 function isAuthenticated(req, res, next) {
   let token;
 
   if (req.headers && req.headers.authorization) {
-    const parts = req.headers.authorization.split(' ');
+    const parts = req.headers.authorization.split(" ");
     if (parts.length === 2) {
       const [scheme, credentials] = parts;
 
@@ -19,31 +19,33 @@ function isAuthenticated(req, res, next) {
         token = credentials;
       }
     } else {
-      return res.badRequest('Formato de autorização inválido');
+      return res.badRequest("Formato de autorização inválido");
     }
-  } else if(req.params.token) {
+  } else if (req.params.token) {
     token = req.params.token;
     delete req.query.token;
   } else {
-    return res.status(401).send('Credenciais de autorização não informadas (401)');
+    return res
+      .status(401)
+      .send("Credenciais de autorização não informadas (401)");
   }
 
   JwtService.verify(token, async (err, token) => {
-    console.log('token', token);
-    if (err) { return res.unauthorized('Token inválido'); }
+    console.log("token", token);
+    if (err) {
+      return res.unauthorized("Token inválido");
+    }
 
     req.token = token;
 
     const user = await User.findOne({
-      attributes: [
-        'id',
-        'company',
-        'admin'
-      ],
-      where: { id: token.user }
+      attributes: ["id", "company", "admin"],
+      where: { id: token.user },
     });
 
-    if(!user) { return res.unauthorized('Usuário não existe'); }
+    if (!user) {
+      return res.unauthorized("Usuário não existe");
+    }
 
     const objUser = user.get({ plain: true });
     req.user = objUser;

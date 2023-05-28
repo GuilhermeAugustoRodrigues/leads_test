@@ -1,10 +1,10 @@
-const { Skill } = require('../models/loader');
+const { Skill } = require("../models/loader");
 
 const SkillController = {
-  async find (req, res) {
+  async find(req, res) {
     try {
       const skills = await Skill.findAll({
-        where: { company: req.user.company }
+        where: { company: req.user.company },
       });
       return res.ok(skills);
     } catch (e) {
@@ -12,13 +12,13 @@ const SkillController = {
     }
   },
 
-  async findOne (req, res) {
+  async findOne(req, res) {
     try {
       const skill = await Skill.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       return res.ok(skill);
@@ -27,18 +27,18 @@ const SkillController = {
     }
   },
 
-  async update (req, res) {
+  async update(req, res) {
     try {
       const skill = await Skill.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       skill.update({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(skill);
@@ -47,11 +47,11 @@ const SkillController = {
     }
   },
 
-  async create (req, res) {
+  async create(req, res) {
     try {
       const skill = await Skill.create({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(skill);
@@ -60,20 +60,20 @@ const SkillController = {
     }
   },
 
-  async destroy (req, res) {
+  async destroy(req, res) {
     try {
       await Skill.destroy({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       return res.noContent();
-    } catch(e) {
+    } catch (e) {
       return res.badRequest(e);
     }
-  }
+  },
 };
 
 module.exports = SkillController;

@@ -2,13 +2,13 @@ const {
   Employee,
   EmployeeSkill,
   ParticipantOnProject,
- } = require('../models/loader');
+} = require("../models/loader");
 
 const EmployeeController = {
-  async find (req, res) {
+  async find(req, res) {
     try {
       const employees = await Employee.findAll({
-        where: { company: req.user.company }
+        where: { company: req.user.company },
       });
       return res.ok(employees);
     } catch (e) {
@@ -16,13 +16,13 @@ const EmployeeController = {
     }
   },
 
-  async findOne (req, res) {
+  async findOne(req, res) {
     try {
       const employee = await Employee.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       return res.ok(employee);
@@ -31,18 +31,18 @@ const EmployeeController = {
     }
   },
 
-  async update (req, res) {
+  async update(req, res) {
     try {
       const employee = await Employee.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       employee.update({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(employee);
@@ -51,11 +51,11 @@ const EmployeeController = {
     }
   },
 
-  async create (req, res) {
+  async create(req, res) {
     try {
       const employee = await Employee.create({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(employee);
@@ -64,7 +64,7 @@ const EmployeeController = {
     }
   },
 
-  async destroy (req, res) {
+  async destroy(req, res) {
     const { id } = req.params;
     const { company } = req.user;
 
@@ -74,26 +74,26 @@ const EmployeeController = {
         EmployeeSkill.destroy({
           where: {
             employee: id,
-            company
-          }
+            company,
+          },
         }),
         ParticipantOnProject.destroy({
           where: {
-            employee: id
-          }
+            employee: id,
+          },
         }),
       ]);
 
       await Employee.destroy({
         where: {
           id: id,
-          company
-        }
-      })
+          company,
+        },
+      });
 
       return res.noContent();
-    } catch(e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
       return res.badRequest(e);
     }
   },

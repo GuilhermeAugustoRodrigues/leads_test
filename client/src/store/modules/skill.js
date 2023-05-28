@@ -1,4 +1,4 @@
-import basic from './basic';
+import basic from "./basic";
 const { state, getters, mutations, actions } = basic;
 
 export default {
@@ -6,18 +6,18 @@ export default {
 
   state: {
     ...state,
-    modelName: 'skill'
+    modelName: "skill",
   },
 
   getters: {
-    ...getters
+    ...getters,
   },
 
   mutations: {
-    ...mutations
+    ...mutations,
   },
 
   actions: {
-    ...actions
-  }
-}
+    ...actions,
+  },
+};

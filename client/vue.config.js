@@ -9,14 +9,14 @@ module.exports = {
     disableHostCheck: true,
     port: process.env.PORT || 8080,
     open: true,
-    public: 'localhost:8081',
+    public: "localhost:8081",
     proxy: {
-      '/api': {
-        target: process.env.API_URL || 'http://server:3000' ,
+      "/api": {
+        target: process.env.API_URL || "http://server:3000",
         changeOrigin: true,
         secure: false,
-        pathRewrite: { '^/api': '' },
+        pathRewrite: { "^/api": "" },
       },
-    }
+    },
   },
-}
+};

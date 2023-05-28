@@ -1,19 +1,22 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model } = require("sequelize");
 
 class Company extends Model {
   static init(sequelize) {
-    return super.init({
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: { msg: 'É necessário informar um nome' },
-        }
+    return super.init(
+      {
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          validate: {
+            notNull: { msg: "É necessário informar um nome" },
+          },
+        },
       },
-    }, {
-      sequelize,
-      tableName: 'company'
-    });
+      {
+        sequelize,
+        tableName: "company",
+      }
+    );
   }
 }
 

@@ -1,14 +1,14 @@
-const { ProjectSkill, Skill } = require('../models/loader');
+const { ProjectSkill, Skill } = require("../models/loader");
 
 const ProjectSkillController = {
-  async find (req, res) {
+  async find(req, res) {
     try {
       const projectSkill = await ProjectSkill.findAll({
         where: {
           ...req.query,
-          company: req.user.company
+          company: req.user.company,
         },
-        include: [ { model: Skill } ]
+        include: [{ model: Skill }],
       });
       return res.ok(projectSkill);
     } catch (e) {
@@ -16,13 +16,13 @@ const ProjectSkillController = {
     }
   },
 
-  async findOne (req, res) {
+  async findOne(req, res) {
     try {
       const projectSkill = await ProjectSkill.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       return res.ok(projectSkill);
@@ -31,18 +31,18 @@ const ProjectSkillController = {
     }
   },
 
-  async update (req, res) {
+  async update(req, res) {
     try {
       const projectSkill = await ProjectSkill.findOne({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       projectSkill.update({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       return res.ok(projectSkill);
@@ -51,18 +51,18 @@ const ProjectSkillController = {
     }
   },
 
-  async create (req, res) {
+  async create(req, res) {
     try {
       const created = await ProjectSkill.create({
         ...req.body,
-        company: req.user.company
+        company: req.user.company,
       });
 
       const projectSkill = await ProjectSkill.findOne({
         where: {
-          id: created.id
+          id: created.id,
         },
-        include: [ { model: Skill } ]
+        include: [{ model: Skill }],
       });
 
       return res.ok(projectSkill);
@@ -71,20 +71,20 @@ const ProjectSkillController = {
     }
   },
 
-  async destroy (req, res) {
+  async destroy(req, res) {
     try {
       await ProjectSkill.destroy({
         where: {
           id: req.params.id,
-          company: req.user.company
-        }
+          company: req.user.company,
+        },
       });
 
       return res.noContent();
-    } catch(e) {
+    } catch (e) {
       return res.badRequest(e);
     }
-  }
+  },
 };
 
 module.exports = ProjectSkillController;

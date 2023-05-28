@@ -1,5 +1,8 @@
 <template>
-  <nav class="sidebar border-right" v-if="isAuthenticated">
+  <nav
+    class="sidebar border-right"
+    v-if="isAuthenticated"
+  >
     <div class="container-fluid">
       <ul class="list-unstyled">
         <li class="p-3 text-left font-weight-bold">
@@ -25,12 +28,12 @@
 </template>
 
 <script>
-export default {
-  name: 'Sidebar',
-  computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    }
-  }
-}
+  export default {
+    name: "Sidebar",
+    computed: {
+      isAuthenticated() {
+        return this.$store.getters.isAuthenticated;
+      },
+    },
+  };
 </script>
