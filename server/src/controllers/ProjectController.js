@@ -1,8 +1,10 @@
+const EmployeeSkill = require("../models/EmployeeSkill");
 const {
   Employee,
   Project,
   ParticipantOnProject,
   ProjectSkill,
+  Skill,
   sequelize,
 } = require("../models/loader");
 
@@ -146,18 +148,21 @@ const ProjectController = {
 
       let ignoreIds = participants.map((o) => o.employee);
 
-      const [bests] = await sequelize.query(`
-        select employee.id, employee.firstname, employee.lastname, employee.email, sum(employeeskill.stars) as stars from projectskill
+      let [bests] = await sequelize.query(`
+        select employee.id, employee.firstname, employee.lastname, employee.email, sum(projectskill.stars) as stars from projectskill
         inner join employeeskill on employeeskill.skill = projectskill.skill and employeeskill.stars >= projectskill.stars
         inner join employee on employee.id = employeeskill.employee
         where projectskill.project = ${req.params.id} and employee.id not in (${ignoreIds}) and employee.company = ${req.user.company}
         group by employee.id
+        having count(distinct projectskill.skill) = (select count(*) from projectskill where project = ${req.params.id})
         order by stars desc;
       `);
 
+      bests = await Promise.all(bests.map(async employee => await addEmployeeSkillsToSuggestion(employee)));
+
       ignoreIds = [...ignoreIds, ...bests.map((o) => o.id)];
 
-      const [others] = await sequelize.query(`
+      let [others] = await sequelize.query(`
         select employee.id, employee.firstname, employee.lastname, employee.email, sum(employeeskill.stars) as stars from projectskill
         inner join employeeskill on employeeskill.skill = projectskill.skill
         inner join employee on employee.id = employeeskill.employee
@@ -165,6 +170,8 @@ const ProjectController = {
         group by employee.id
         order by stars desc;
       `);
+
+      others = await Promise.all(others.map(async employee => await addEmployeeSkillsToSuggestion(employee)));
 
       ignoreIds = [...ignoreIds, ...others.map((o) => o.id)];
 
@@ -175,10 +182,25 @@ const ProjectController = {
 
       return res.ok({ bests, others, all });
     } catch (e) {
-      console.log(e);
       return res.badRequest(e);
     }
   },
 };
+
+async function addEmployeeSkillsToSuggestion (employee) {
+  const skills = await EmployeeSkill.findAll({
+    where: {
+      employee: employee.id,
+    },
+    include: [{ model: Skill }],
+  });
+
+  const newEmployee = {
+    ...employee,
+    skills: skills
+  }
+
+  return newEmployee;
+}
 
 module.exports = ProjectController;

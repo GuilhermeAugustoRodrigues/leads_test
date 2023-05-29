@@ -26,9 +26,17 @@
       </div>
     </div>
 
+    <div class="ml-3">
+      <div class="horizontal-list">
+        <ul>
+          <li v-for="skill in item.skills" :key="skill.id" :data-tooltip="skill.stars">{{ `${skill.Skill.title}` }}</li>
+        </ul>
+      </div>
+    </div>
+
     <button
       type="button"
-      class="btn btn-outline-primary btn-sm"
+      class="btn btn-outline-primary btn-sm ml-auto mr-0"
       @click="addEmployee"
     >
       <font-awesome-icon icon="plus" /> Adicionar
@@ -80,3 +88,46 @@
     },
   };
 </script>
+
+<style scoped>
+  .horizontal-list {
+    overflow-x: auto;
+    white-space: nowrap;
+    overflow: auto;
+  }
+
+  .horizontal-list ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .horizontal-list li {
+    background-color: #f2f2f2;
+    padding: 10px 10px;
+    border-radius: 50px;
+    font-size: .8em;
+  }
+
+  .horizontal-list li::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 75%;
+    padding: 6px 6px;
+    background-color: #333;
+    color: #fff;
+    font-size: .8em;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+  }
+
+  .horizontal-list li:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+</style>
