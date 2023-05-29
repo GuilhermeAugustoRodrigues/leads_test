@@ -4,12 +4,8 @@
   "description": "## About",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --write '**/*' --ignore-path .gitignore"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "prettier": "^2.8.8"
-  }
+  "license": "ISC"
 }
